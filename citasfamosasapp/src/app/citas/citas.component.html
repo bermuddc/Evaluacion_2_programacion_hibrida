@@ -1,0 +1,31 @@
+<form #formCita="ngForm" (ngSubmit)="agregar()">
+  <ion-item>
+    <ion-label position="floating">Frase</ion-label>
+    <ion-input name="frase" [(ngModel)]="nuevaFrase" required minlength="5" #fraseInput="ngModel"></ion-input>
+  </ion-item>
+  <div *ngIf="fraseInput.invalid && fraseInput.touched" class="error">
+    <small *ngIf="fraseInput.errors?.['required']">La frase es obligatoria.</small>
+    <small *ngIf="fraseInput.errors?.['minlength']">Debe tener al menos 5 caracteres.</small>
+  </div>
+
+  <ion-item>
+    <ion-label position="floating">Autor</ion-label>
+    <ion-input name="autor" [(ngModel)]="autor" required minlength="2" #autorInput="ngModel"></ion-input>
+  </ion-item>
+  <div *ngIf="autorInput.invalid && autorInput.touched" class="error">
+    <small *ngIf="autorInput.errors?.['required']">El autor es obligatorio.</small>
+    <small *ngIf="autorInput.errors?.['minlength']">Debe tener al menos 2 caracteres.</small>
+  </div>
+
+  <ion-button expand="full" type="submit" [disabled]="formCita.invalid">Guardar cita</ion-button>
+</form>
+
+<ion-list>
+  <ion-item *ngFor="let cita of citas">
+    <ion-label>
+      <h2>{{ cita.frase }}</h2>
+      <p>{{ cita.autor }}</p>
+    </ion-label>
+    <ion-button *ngIf="permitirEliminar" color="danger" (click)="eliminar(cita.id)">Eliminar</ion-button>
+  </ion-item>
+</ion-list>
